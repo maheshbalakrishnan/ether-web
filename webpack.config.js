@@ -1,14 +1,14 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+    entry: './src/index.ts',
+    devtool: 'inline-source-map',
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: "babel-loader"
-          }
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/
         },
         {
           test: /\.html$/,
@@ -34,6 +34,13 @@ module.exports = {
           },
         }
       ]
+    },
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ]
+    },
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist')
     },
     plugins: [
       new HtmlWebPackPlugin({
