@@ -1,0 +1,13 @@
+@import 'base/colors';
+@import 'base/fonts';
+@import 'base/base';
+
+@import 'layout/header';
+
+@import 'modules/card';
+@import 'modules/loader';
+@import 'modules/buttons';
+
+body {
+    background-color: $color_site_background;
+}

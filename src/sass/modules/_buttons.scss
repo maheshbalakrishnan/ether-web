@@ -1,0 +1,8 @@
+.btn-primary {
+    background-color: $color_site_secondary;
+    border-color: $color_site_secondary;
+    &:hover {
+        background-color: $color_site_secondary_darker;
+        border-color: $color_site_secondary_darker;
+    }
+}
