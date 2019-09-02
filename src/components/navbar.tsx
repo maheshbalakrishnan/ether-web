@@ -2,6 +2,16 @@ import React from 'react';
 import { Navbar } from 'react-bootstrap';
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import User from '../core/models/user';
+
+interface props {
+    showLoader: Boolean,
+    user: User | null
+}
+
+interface state {
+
+}
 
 function Logo() {
     return (
@@ -29,26 +39,26 @@ function Loader(props: any) {
     return (<div></div>)
 }
 
-function LoginInfo(props: any) {
+function LoginInfo(user: any) {
     return (
         <div className="login-info float-right">
-            <FontAwesomeIcon icon={ faUser } className="icon-style"/> 
-            <span>Login</span>
+            <FontAwesomeIcon icon={ faUser } className="icon-style icon-user"/> 
+            <span>{user.loggedIn ? user.userName : 'Login'}</span>
         </div>
     )
 }
 
 
-export default class EtherNavbar extends React.Component {
+export default class EtherNavbar extends React.Component<props, state> {
     render() {
         return(
             <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="#home">
                     <Logo />
                 </Navbar.Brand>
-                <Loader show={false} />
+                <Loader show={this.props.showLoader} />
                 <Navbar.Collapse className="justify-content-end">
-                    <LoginInfo />
+                    <LoginInfo user={this.props.user}/>
                 </Navbar.Collapse>                
             </Navbar>
         );
