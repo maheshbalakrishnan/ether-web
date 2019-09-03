@@ -1,6 +1,12 @@
 body {
   margin: 0;
-  z-index: 0; }
+  z-index: 0;
+  font-family: "Fira Sans", sans-serif;
+  background-color: #ebebeb;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none; }
+  body::-webkit-scrollbar {
+    width: 0 !important; }
 
 .make-items-center-again {
   bottom: 0;
@@ -12,10 +18,14 @@ body {
   right: 0;
   top: 0; }
 
+a {
+  color: #0095A8; }
+
 a:hover,
 a:focus {
   outline: none;
-  text-decoration: none; }
+  text-decoration: none;
+  color: #29cce2; }
 
 .login-info {
   color: white;
@@ -23,12 +33,18 @@ a:focus {
   .login-info span {
     margin-left: 6px; }
 
+.username-badge {
+  font-size: 18px;
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 2px solid white; }
+
 .card {
   margin: 0 auto;
   margin-top: 50px;
   width: 480px;
   padding: 40px;
-  border-radius: 8px;
+  border-radius: 1px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
 
 .loader {
@@ -185,5 +201,12 @@ a:focus {
     background-color: #006472;
     border-color: #006472; }
 
-body {
-  background-color: #ebebeb; }
+.container {
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 100%;
+  height: 100vh; }
+  .container h1 {
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center; }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
+import $ from "jquery";
 
 interface props {
     login: Function
@@ -13,8 +14,8 @@ export default class EtherLogin extends React.Component<props, state> {
     }
 
     doLogin() {
-        let userName = "";
-        let password = ""        
+        let userName = (document.getElementById('etherUserName') as HTMLInputElement).value;
+        let password = (document.getElementById('etherPassword') as HTMLInputElement).value;
         this.props.login(userName, password);
     }
     render() {

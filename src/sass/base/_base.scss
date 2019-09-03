@@ -1,6 +1,13 @@
 body {    
     margin: 0;
-    z-index: 0;  
+    z-index: 0;
+    font-family: $font_site_primary, sans-serif;
+    background-color: $color_site_background;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { 
+        width: 0 !important 
+    }
 }
 
 .make-items-center-again {
@@ -14,8 +21,18 @@ body {
     top: 0;
 }
 
+a {
+    color: $color_site_secondary;
+}
+
 a:hover,
 a:focus {
     outline: none;
     text-decoration: none;
+    color: $color_site_secondary_bright;    
+}
+
+@mixin card-styles {
+    border-radius: 1px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.3);
 }

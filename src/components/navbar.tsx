@@ -1,8 +1,9 @@
 import React from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Badge } from 'react-bootstrap';
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import User from '../core/models/user';
+import { Link } from 'react-router-dom';
 
 interface props {
     showLoader: Boolean,
@@ -39,26 +40,36 @@ function Loader(props: any) {
     return (<div></div>)
 }
 
-function LoginInfo(user: any) {
+function LoginInfo(props: any) {
     return (
         <div className="login-info float-right">
-            <FontAwesomeIcon icon={ faUser } className="icon-style icon-user"/> 
-            <span>{user.loggedIn ? user.userName : 'Login'}</span>
+            <span>
+                {   props.user.loggedIn ? 
+                        <div>
+                            <Badge className="username-badge" variant="primary">{ props.user.userName[0].toUpperCase() }</Badge>
+                        </div> : 
+                        <Link to="/login">
+                            <FontAwesomeIcon icon={ faUser } className="icon-style icon-user"/> 
+                            <span>Login</span>
+                        </Link>
+                }
+            </span>
         </div>
     )
 }
-
 
 export default class EtherNavbar extends React.Component<props, state> {
     render() {
         return(
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">
-                    <Logo />
-                </Navbar.Brand>
+                <Link to="/">
+                    <Navbar.Brand>
+                        <Logo />
+                    </Navbar.Brand>
+                </Link>
                 <Loader show={this.props.showLoader} />
                 <Navbar.Collapse className="justify-content-end">
-                    <LoginInfo user={this.props.user}/>
+                    <LoginInfo user={this.props.user} />
                 </Navbar.Collapse>                
             </Navbar>
         );
