@@ -9,8 +9,7 @@ class EtherHome extends React.Component<state, props> {
   }
 
   render() {
-    return (<div className="container">
-                
+    return (<div className="container">                
             </div>)
   }
 }

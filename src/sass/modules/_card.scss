@@ -1,7 +1,10 @@
-.card {
+.card-container {
     margin: 0 auto;
     margin-top: 50px;
     width: 480px;
+    @include card-styles;    
+}
+
+.card {    
     padding: 40px;
-    @include card-styles;
 }

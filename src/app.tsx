@@ -1,103 +1,63 @@
-import React from 'react';
-import Axios, { AxiosError, AxiosResponse } from 'axios';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import React, { useReducer, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+import sm from './core/stateManager';
+import { EtherContext, DispatchContext } from './core/context';
 import EtherLogin from './components/login';
 import EtherNavbar from './components/navbar';
-import getDefaultState from './core/stateManager';
-import State from "./core/models/state";
-import User from './core/models/user';
-import EtherContext from './core/etherContext';
 import EtherHome from './components/home';
+import PageNotFoundError from './components/pageNotFoundError';
+import { GetLocalStorage } from './core/localStorage';
 
-class App extends React.Component<any, State> {
-    constructor(props: any) {
-        super(props);
-        this.state = getDefaultState();
-    }
+const history = createBrowserHistory();
 
-    render() {
-        return (
-            <EtherContext.Provider value={this.state}>
-                <Router>                
-                    <div>
-                        <EtherNavbar showLoader={this.state.loading} user={this.state.user}/>
-                        <Route exact path="/" component={EtherHome} />
-                        <Route path="/login" render={ routeProps => ( 
-                            <EtherLogin login={this.login.bind(this)}/>
-                        )} />
-                        
-                    </div>
-                </Router>
-            </EtherContext.Provider>
-        );
-    }
-
-    updateLocalStorage(user: User): void {
-        localStorage.setItem('userName', this.state.user.userName.toString());
-        localStorage.setItem('apiToken', this.state.user.apiToken.toString());        
-    }
-
-    getLocalStorage(): User {
-        let userName = localStorage.getItem('userName');
-        let apiToken = localStorage.getItem('apiToken');
-        if(userName && userName !== "") {
-            return {
-                userName: userName,
-                apiToken: apiToken,
-                loggedIn: true
-            }
-        }
-        return {
-            userName: '',
-            apiToken: '',
-            loggedIn: false
-        }
-    }
-
-    login(userName: String, password: String) {
-        this.setState({
-            loading: true
-        });
-        Axios.post('https://maheshtech.com/ether/api/auth', {
-            username: userName,
-            password: password})
-        .then((response: AxiosResponse) => {
-            this.setState({
-                loading: false,
-                user: {
-                    apiToken: response.data.token,
-                    loggedIn: true,
-                    userName: userName
-                }
-            }, () => {
-                
-            });            
-        })
-        .catch((err: AxiosError) => {
-            console.log(err);
-        });
-    }
-
-    logout() {
-        this.setState({
-            loading: false,
-            user: {
-                apiToken: '',
-                loggedIn: false,
-                userName: ''
-            }
-        }, () => {
-            this.updateLocalStorage(this.state.user);
-        }); 
-    }
-
-    componentDidMount() {
-        let user = this.getLocalStorage();
-        if(user.loggedIn) this.setState({
-            user: user
-        });
+const PrivateRoute = ({ isLoggedIn, ...props }: any) => {    
+    if(isLoggedIn) return <Route {...props} />
+    else {
+        history.push('/login', {});
+        return <Redirect to="/login" />
     }
 }
+
+const App = () => {    
+    const [state, dispatch] = useReducer(sm.etherReducer, sm.defaultState);
+    
+    useEffect(() => {
+        let user = GetLocalStorage();
+        console.log(user);
+        dispatch({ type: 'login', payload: user});
+        if(user.loggedIn) {
+            console.log("Auto login !");
+            history.push('/', {});
+        }
+    }, []);
+    
+    useEffect(() => {
+        if (state.user.loggedIn) {
+            history.push('/', {});
+        }
+    });
+    
+    return (
+        <EtherContext.Provider value={state}>
+            <DispatchContext.Provider value={dispatch}>
+                <Router>
+                    <div>
+                        <EtherNavbar />
+                        <Switch>
+                            <Route path="/" exact render={ (routeProps) => ( <PrivateRoute isLoggedIn={state.user.loggedIn} component={EtherHome} />) } />
+                            <Route path="/login" render={routeProps => (<EtherLogin />)} />
+                            <Route component={PageNotFoundError} />
+                        </Switch>
+                    </div>
+                </Router>
+            </DispatchContext.Provider>
+        </EtherContext.Provider>
+    )
+}
+
+// const logout = (): void => {
+//     dispatch({ type: 'logout' });
+// }
 
 export default App;

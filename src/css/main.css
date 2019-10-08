@@ -27,25 +27,32 @@ a:focus {
   text-decoration: none;
   color: #29cce2; }
 
+nav {
+  border-radius: 1px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
+
 .login-info {
   color: white;
   margin-top: 5px; }
   .login-info span {
-    margin-left: 6px; }
+    margin-left: 5px; }
 
 .username-badge {
   font-size: 18px;
   border-radius: 50%;
   margin-right: 15px;
-  border: 2px solid white; }
+  border: 2px solid white;
+  background-color: #46aa72; }
 
-.card {
+.card-container {
   margin: 0 auto;
   margin-top: 50px;
   width: 480px;
-  padding: 40px;
   border-radius: 1px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
+
+.card {
+  padding: 40px; }
 
 .loader {
   margin-top: 5px; }
